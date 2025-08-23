@@ -44,7 +44,7 @@ match /users/{userId} {
 - **Production Recommendation**: Restrict to specific domains:
 ```javascript
 app.use(cors({
-  origin: 'https://your-project.web.app',
+  origin: ['https://userclickcounts.web.app', 'https://userclickcounts.firebaseapp.com'],
   credentials: true
 }));
 ```
@@ -116,7 +116,7 @@ app.use(cors({
 ### Data Privacy
 - **Minimal Data Collection**: Only essential user data is stored
 - **User Control**: Users can delete their accounts
-- **Data Location**: Specify Firestore region for data residency
+- **Data Location**: Firestore data stored in `us-central1` region
 
 ### Security Headers (Recommended)
 ```javascript
@@ -149,3 +149,24 @@ app.use(helmet({
 - Full security audit
 - Update security documentation
 - Review compliance requirements
+
+## Project-Specific Security Configuration
+
+### Current Implementation Status
+- ✅ Firebase Authentication (Email/Password)
+- ✅ Firestore Security Rules (User isolation)
+- ✅ HTTPS on all endpoints
+- ✅ API Token Verification
+- ✅ TypeScript for type safety
+- ⚠️ CORS open for all origins (needs production config)
+- ⚠️ Helmet security headers not yet implemented
+
+### Production Deployment Checklist
+1. **Update CORS settings** in `backend/src/index.ts`
+2. **Add Helmet** for security headers
+3. **Enable Firebase App Check** for additional API protection
+4. **Set up monitoring alerts** in Google Cloud Console
+5. **Configure Cloud Armor** for DDoS protection (optional)
+
+### Contact for Security Issues
+Report security vulnerabilities to: [YOUR-EMAIL@example.com]
