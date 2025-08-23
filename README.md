@@ -2,6 +2,10 @@
 
 A modern web application demonstrating full-stack development with React, Firebase, and Google Cloud Platform.
 
+<img width="485" height="611" alt="image" src="https://github.com/user-attachments/assets/29d557b2-3fbe-4f20-865e-8df568c7a4fc" />
+
+<img width="1059" height="888" alt="image" src="https://github.com/user-attachments/assets/d0b98cb4-9359-474e-967d-a83940e8d8f2" />
+
 ## Features
 
 - **User Authentication**: Email/password authentication using Firebase Auth
