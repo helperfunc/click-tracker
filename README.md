@@ -190,18 +190,21 @@ jobs:
       - uses: actions/checkout@v3
       
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
-        
-      - name: Setup Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
           
       - name: Build Frontend
         run: cd frontend && npm install && npm run build
@@ -238,6 +241,12 @@ jobs:
 4. **"Invalid token" Error:**
    - Regenerate Firebase CI token: `firebase login:ci`
    - Update `FIREBASE_TOKEN` secret with new token
+
+5. **"You do not currently have an active account selected" Error:**
+   - This means gcloud authentication failed
+   - Check that `GCP_SA_KEY` is properly base64 encoded
+   - Verify the service account JSON is valid
+   - Ensure proper authentication action is used in workflow
 
 
 ## Environment Variables
