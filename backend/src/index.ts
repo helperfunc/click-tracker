@@ -35,6 +35,7 @@ app.use(express.json());
 // Auth middleware
 interface AuthRequest extends Request {
   user?: admin.auth.DecodedIdToken;
+  headers: Request['headers'];
 }
 
 const verifyToken = async (req: AuthRequest, res: Response, next: Function) => {
