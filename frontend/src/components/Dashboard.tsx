@@ -26,7 +26,7 @@ const Dashboard: React.FC = () => {
     
     try {
       console.log('Fetching click count for user:', currentUser.uid);
-      console.log('Auth token available:', currentUser.accessToken ? 'Yes' : 'No');
+      console.log('User authenticated:', !!currentUser);
       
       const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
       if (userDoc.exists()) {
@@ -37,10 +37,10 @@ const Dashboard: React.FC = () => {
         setClickCount(0);
       }
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching click count:', error);
-      console.error('Error code:', error.code);
-      console.error('Error message:', error.message);
+      console.error('Error code:', error?.code);
+      console.error('Error message:', error?.message);
       setLoading(false);
     }
   };
@@ -62,9 +62,9 @@ const Dashboard: React.FC = () => {
       
       setClickCount(prevCount => prevCount + 1);
       console.log('Click count updated successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating click count:', error);
-      console.error('Error details:', error.code, error.message);
+      console.error('Error details:', error?.code, error?.message);
     }
   };
 
