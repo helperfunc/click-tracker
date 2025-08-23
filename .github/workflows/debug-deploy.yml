@@ -1,0 +1,39 @@
+name: Debug Cloud Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        
+      - name: Verify Authentication
+        run: |
+          gcloud auth list
+          gcloud config list
+          gcloud projects describe ${{ secrets.GCP_PROJECT_ID }}
+          
+      - name: Check APIs
+        run: |
+          gcloud services list --enabled --filter="name:cloudbuild.googleapis.com OR name:run.googleapis.com"
+          
+      - name: Test Cloud Build Access
+        run: |
+          cd backend
+          echo "Testing gcloud builds list..."
+          gcloud builds list --limit=1
+          echo "Testing gcloud builds submit (dry run)..."
+          gcloud builds submit --config cloudbuild.yaml --project ${{ secrets.GCP_PROJECT_ID }} --dry-run

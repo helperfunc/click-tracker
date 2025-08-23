@@ -227,12 +227,14 @@ jobs:
    - This happens when using `cache: 'npm'` without package-lock.json
    - Solution: Remove the cache line or commit package-lock.json files
 
-2. **"Permission denied" Error:**
-   - Check service account has required roles:
-     - Cloud Build Editor
-     - Cloud Run Admin  
-     - Storage Admin
-     - Service Account User
+2. **"Permission denied" or "User is forbidden from accessing bucket" Error:**
+   - Check service account has ALL required roles:
+     - **Cloud Build Editor**
+     - **Cloud Run Admin**  
+     - **Storage Admin**
+     - **Service Account User**
+     - **Service Usage Admin** (for accessing Cloud Build bucket)
+     - **Cloud Build Service Account** (alternative to Service Usage Admin)
 
 3. **"Firebase project not found" Error:**
    - Verify `GCP_PROJECT_ID` secret matches your Firebase project ID
@@ -247,6 +249,22 @@ jobs:
    - Check that `GCP_SA_KEY` is properly base64 encoded
    - Verify the service account JSON is valid
    - Ensure proper authentication action is used in workflow
+
+**How to create service account with proper permissions:**
+
+1. Go to: https://console.cloud.google.com/iam-admin/serviceaccounts
+2. Click "Create Service Account"
+3. Name: `github-actions-deployer`
+4. Add ALL these roles (click "Add Another Role" for each):
+   ```
+   Cloud Build Editor
+   Cloud Run Admin
+   Storage Admin
+   Service Account User
+   Service Usage Admin
+   Cloud Build Service Account
+   ```
+5. Create JSON key: Service Account → Keys → Add Key → JSON
 
 
 ## Environment Variables

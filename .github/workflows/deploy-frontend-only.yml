@@ -1,0 +1,42 @@
+name: Deploy Frontend Only (Free)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+        
+      - name: Install Frontend Dependencies
+        run: cd frontend && npm install
+        
+      - name: Build Frontend
+        run: cd frontend && npm run build
+        
+      - name: Deploy Frontend to Firebase Hosting
+        run: |
+          cd frontend
+          firebase deploy --only hosting --project ${{ secrets.GCP_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+          
+      - name: Deploy Firestore Rules
+        run: firebase deploy --only firestore:rules --project ${{ secrets.GCP_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+        
+      - name: Display URLs
+        run: |
+          echo "🎉 Frontend deployed!"
+          echo "📱 Frontend URL: https://${{ secrets.GCP_PROJECT_ID }}.web.app"
+          echo "⚠️  Backend not deployed (requires billing account)"
