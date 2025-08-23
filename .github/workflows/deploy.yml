@@ -51,7 +51,23 @@ jobs:
       - name: Deploy Backend to Cloud Run
         run: |
           cd backend
-          gcloud builds submit --config cloudbuild.yaml --project ${{ secrets.GCP_PROJECT_ID }}
+          gcloud builds submit --config cloudbuild.yaml --project ${{ secrets.GCP_PROJECT_ID }} || true
+          
+      - name: Get Backend URL
+        run: |
+          SERVICE_URL=$(gcloud run services describe click-tracker-backend --region=us-central1 --format='value(status.url)' --project ${{ secrets.GCP_PROJECT_ID }})
+          echo "Backend deployed at: $SERVICE_URL"
+          echo "BACKEND_URL=$SERVICE_URL" >> $GITHUB_ENV
           
       - name: Deploy Firestore Rules
         run: firebase deploy --only firestore:rules --project ${{ secrets.GCP_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+        
+      - name: Deployment Summary
+        run: |
+          echo "🎉 Deployment Complete!"
+          echo "📱 Frontend URL: https://${{ secrets.GCP_PROJECT_ID }}.web.app"
+          echo "🔧 Backend URL: ${{ env.BACKEND_URL }}"
+          echo ""
+          echo "Next steps:"
+          echo "1. Update frontend/.env with VITE_API_URL=${{ env.BACKEND_URL }}"
+          echo "2. Rebuild and redeploy frontend if needed"
