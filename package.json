@@ -1,0 +1,23 @@
+{
+  "name": "click-tracker-app",
+  "version": "1.0.0",
+  "description": "A full-stack web app with React, Firebase, and Google Cloud",
+  "scripts": {
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "dev:all": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run dev\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build:all": "cd frontend && npm run build && cd ../backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "docker:up": "docker-compose up --build",
+    "docker:down": "docker-compose down",
+    "deploy": "bash deploy.sh"
+  },
+  "keywords": ["react", "firebase", "cloud-run", "typescript"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

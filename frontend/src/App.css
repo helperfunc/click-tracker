@@ -1,0 +1,140 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.App {
+  text-align: center;
+}
+
+.login-container,
+.signup-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #f5c6cb;
+}
+
+.dashboard {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+.logout-btn {
+  background-color: #dc3545;
+  width: auto;
+  padding: 10px 20px;
+  margin: 0;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+.user-info {
+  margin-bottom: 30px;
+  font-size: 18px;
+  color: #666;
+}
+
+.click-section {
+  margin-top: 40px;
+}
+
+.track-button {
+  background-color: #007bff;
+  font-size: 24px;
+  padding: 20px 40px;
+  width: auto;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.track-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.stats {
+  margin-top: 40px;
+  padding: 30px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stats h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.count {
+  font-size: 48px;
+  font-weight: bold;
+  color: #007bff;
+  margin: 0;
+}
