@@ -218,6 +218,27 @@ jobs:
 - `GCP_SA_KEY`: Service account JSON key (base64 encoded)
 - `FIREBASE_TOKEN`: Firebase deployment token
 
+**Common GitHub Actions Issues:**
+
+1. **"Dependencies lock file is not found" Error:**
+   - This happens when using `cache: 'npm'` without package-lock.json
+   - Solution: Remove the cache line or commit package-lock.json files
+
+2. **"Permission denied" Error:**
+   - Check service account has required roles:
+     - Cloud Build Editor
+     - Cloud Run Admin  
+     - Storage Admin
+     - Service Account User
+
+3. **"Firebase project not found" Error:**
+   - Verify `GCP_PROJECT_ID` secret matches your Firebase project ID
+   - Check Firebase project is properly initialized
+
+4. **"Invalid token" Error:**
+   - Regenerate Firebase CI token: `firebase login:ci`
+   - Update `FIREBASE_TOKEN` secret with new token
+
 
 ## Environment Variables
 
