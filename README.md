@@ -308,6 +308,64 @@ jobs:
    $encoded | Set-Clipboard
    ```
 
+## Accessing Your Deployed Application
+
+After the GitHub Actions workflow completes successfully, you can access your application at:
+
+### Live URLs:
+
+1. **Frontend Application** (React):
+   - Primary: `https://YOUR-PROJECT-ID.web.app`
+   - Alternative: `https://YOUR-PROJECT-ID.firebaseapp.com`
+   - Example: `https://userclickcounts.web.app`
+
+2. **Backend API** (Node.js/Express):
+   - URL Format: `https://SERVICE-NAME-PROJECT-NUMBER.REGION.run.app`
+   - Where to find these values:
+     - **SERVICE-NAME**: `click-tracker-backend` (defined in cloudbuild.yaml)
+     - **PROJECT-NUMBER**: Your Firebase project number (find in Firebase Console → Project Settings)
+     - **REGION**: `us-central1` (defined in cloudbuild.yaml)
+   - Example: `https://click-tracker-backend-945172033364.us-central1.run.app`
+   - Health Check: `https://click-tracker-backend-945172033364.us-central1.run.app/health`
+
+### Testing Your Application:
+
+1. **Basic Functionality Test**:
+   - Visit the frontend URL
+   - Sign up for a new account or login
+   - Click the "Click Me!" button
+   - Verify the counter increases
+   - Logout and login again to verify persistence
+
+2. **API Endpoints** (requires authentication):
+   - `GET /health` - Public health check
+   - `GET /api/user` - Get authenticated user info
+   - `GET /api/user/stats` - Get user's click statistics
+
+### Finding Your Backend URL:
+
+**Option 1: From GitHub Actions Output**
+- Go to your GitHub Actions run
+- Look at the "Deploy Backend to Cloud Run" step output
+- Find the line: `Service URL: https://...`
+
+**Option 2: From Google Cloud Console**
+- Visit: `https://console.cloud.google.com/run?project=YOUR-PROJECT-ID`
+- Click on `click-tracker-backend`
+- Copy the URL shown at the top
+
+**Option 3: Using gcloud CLI**
+```bash
+gcloud run services describe click-tracker-backend --region=us-central1 --format='value(status.url)'
+```
+
+### Monitoring & Debugging:
+
+- **GitHub Actions**: `https://github.com/YOUR-USERNAME/YOUR-REPO/actions`
+- **Firebase Console**: `https://console.firebase.google.com/project/YOUR-PROJECT-ID`
+- **Cloud Run Logs**: `https://console.cloud.google.com/run?project=YOUR-PROJECT-ID`
+- **Firestore Data**: `https://console.firebase.google.com/project/YOUR-PROJECT-ID/firestore`
+
 
 ## Environment Variables
 
