@@ -398,11 +398,52 @@ Authorization: Bearer <firebase-id-token>
 
 ## Security Considerations
 
-1. **Firestore Rules**: Only authenticated users can read/write their own data
-2. **API Authentication**: All API endpoints (except health check) require valid Firebase tokens
-3. **Environment Variables**: Never commit `.env` files or service account keys
-4. **CORS**: Backend configured to accept requests from any origin (configure for production)
-5. **HTTPS**: Both Firebase Hosting and Cloud Run provide HTTPS by default
+### Firestore Security Rules
+```javascript
+// Current rules in firestore.rules
+match /users/{userId} {
+  allow read, write: if request.auth != null && request.auth.uid == userId;
+}
+```
+- Users can only access their own data
+- No unauthenticated access allowed
+- Each user's data is isolated by their UID
+
+### API Authentication
+- **Protected endpoints** require Firebase Auth token in header:
+  ```
+  Authorization: Bearer <firebase-id-token>
+  ```
+- **Backend verification** using Firebase Admin SDK:
+  - Validates token authenticity
+  - Extracts user UID for data access
+  - Rejects expired or invalid tokens
+
+### Security Best Practices Implemented
+1. **Environment Variables**: 
+   - Sensitive data stored in `.env` files (gitignored)
+   - Service account keys never committed to repository
+   
+2. **Data Validation**:
+   - User input sanitized by Firebase SDK
+   - TypeScript provides type safety
+   
+3. **Network Security**:
+   - HTTPS enforced on all endpoints
+   - Firebase Hosting provides SSL certificates
+   - Cloud Run provides managed TLS
+   
+4. **CORS Configuration**:
+   - Currently allows all origins (development)
+   - **TODO for production**: Restrict to your domain:
+   ```javascript
+   app.use(cors({ origin: 'https://userclickcounts.web.app' }));
+   ```
+
+### Additional Security Notes
+- See `SECURITY.md` for comprehensive security documentation
+- Regular dependency updates recommended (`npm audit`)
+- Monitor Firebase Authentication logs for suspicious activity
 
 ## Project Structure
 
