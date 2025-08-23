@@ -188,6 +188,11 @@ firebase deploy --only firestore:rules --project YOUR-PROJECT-ID
    - `GCP_PROJECT_ID`: Your Firebase project ID (e.g., `userclickcounts`)
    - `GCP_SA_KEY`: Base64-encoded service account JSON key
    - `FIREBASE_TOKEN`: Get with `firebase login:ci`
+   - `VITE_FIREBASE_API_KEY`: Your Firebase API key
+   - `VITE_FIREBASE_AUTH_DOMAIN`: Your Firebase auth domain (e.g., `userclickcounts.firebaseapp.com`)
+   - `VITE_FIREBASE_STORAGE_BUCKET`: Your Firebase storage bucket (e.g., `userclickcounts.firebasestorage.app`)
+   - `VITE_FIREBASE_MESSAGING_SENDER_ID`: Your Firebase messaging sender ID
+   - `VITE_FIREBASE_APP_ID`: Your Firebase app ID
 
 **The workflow file `.github/workflows/deploy.yml` is already included:**
 ```yaml
