@@ -51,6 +51,13 @@ cd click-tracker-app
 3. Create a Firestore database
 4. Register a web app and get configuration
 
+**Link Firebase to Google Cloud (Important!):**
+1. Go to Firebase Console → Project Settings → General
+2. Scroll to "Google Cloud Platform (GCP) resource location"
+3. If showing "Not set", click and select a region (e.g., `us-central1`)
+4. This creates the corresponding Google Cloud project
+5. Wait 2-3 minutes, then check https://console.cloud.google.com/ - your Firebase project should appear
+
 **Firebase CLI Setup:**
 ```bash
 # Install Firebase CLI (if not already installed)
@@ -175,7 +182,14 @@ firebase deploy --only firestore:rules --project YOUR-PROJECT-ID
 
 **Option 2: GitHub Actions Deployment (recommended for Windows)**
 
-Create `.github/workflows/deploy.yml`:
+**Setup Steps:**
+1. Complete all Firebase and Google Cloud setup above
+2. Create GitHub Secrets (Repository → Settings → Secrets and variables → Actions):
+   - `GCP_PROJECT_ID`: Your Firebase project ID (e.g., `userclickcounts`)
+   - `GCP_SA_KEY`: Base64-encoded service account JSON key
+   - `FIREBASE_TOKEN`: Get with `firebase login:ci`
+
+**The workflow file `.github/workflows/deploy.yml` is already included:**
 ```yaml
 name: Deploy to Google Cloud
 on:
@@ -250,12 +264,19 @@ jobs:
    - Verify the service account JSON is valid
    - Ensure proper authentication action is used in workflow
 
-**How to create service account with proper permissions:**
+**Create Google Cloud Service Account for GitHub Actions:**
 
-1. Go to: https://console.cloud.google.com/iam-admin/serviceaccounts
-2. Click "Create Service Account"
-3. Name: `github-actions-deployer`
-4. Add ALL these roles (click "Add Another Role" for each):
+1. **Ensure Firebase project appears in Google Cloud:**
+   - Go to: https://console.cloud.google.com/
+   - Your Firebase project should be listed (if not, complete the "Link Firebase to Google Cloud" step above)
+
+2. **Create Service Account:**
+   - Go to: https://console.cloud.google.com/iam-admin/serviceaccounts?project=YOUR-FIREBASE-PROJECT-ID
+   - Click "Create Service Account"
+   - Name: `github-actions-deployer`
+   - Description: `Service account for GitHub Actions deployment`
+
+3. **Add Required Roles** (click "Add Another Role" for each):
    ```
    Cloud Build Editor
    Cloud Run Admin
@@ -263,8 +284,24 @@ jobs:
    Service Account User
    Service Usage Admin
    Cloud Build Service Account
+   Firebase Admin SDK Administrator Service Agent
    ```
-5. Create JSON key: Service Account → Keys → Add Key → JSON
+
+4. **Enable Required APIs** in your Firebase project:
+   - Cloud Build API: https://console.cloud.google.com/apis/library/cloudbuild.googleapis.com?project=YOUR-PROJECT-ID
+   - Cloud Run API: https://console.cloud.google.com/apis/library/run.googleapis.com?project=YOUR-PROJECT-ID
+   - Cloud Resource Manager API: https://console.cloud.google.com/apis/library/cloudresourcemanager.googleapis.com?project=YOUR-PROJECT-ID
+
+5. **Create JSON Key:**
+   - Service Account → Keys → Add Key → Create New Key → JSON
+   - Download and save the JSON file securely
+
+6. **Convert to Base64** (Windows PowerShell):
+   ```powershell
+   $content = Get-Content -Path "path\to\your\service-account-key.json" -Raw
+   $encoded = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($content))
+   $encoded | Set-Clipboard
+   ```
 
 
 ## Environment Variables

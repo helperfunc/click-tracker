@@ -22,9 +22,14 @@ jobs:
         
       - name: Verify Authentication
         run: |
+          echo "Current authenticated account:"
           gcloud auth list
+          echo "Current config:"
           gcloud config list
-          gcloud projects describe ${{ secrets.GCP_PROJECT_ID }}
+          echo "Available projects for this service account:"
+          gcloud projects list
+          echo "GitHub Secret GCP_PROJECT_ID value: ${{ secrets.GCP_PROJECT_ID }}"
+          echo "Trying to describe project with SECRET value..."
           
       - name: Check APIs
         run: |
