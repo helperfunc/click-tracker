@@ -6,6 +6,8 @@ A modern web application demonstrating full-stack development with React, Fireba
 
 <img width="1059" height="888" alt="image" src="https://github.com/user-attachments/assets/d0b98cb4-9359-474e-967d-a83940e8d8f2" />
 
+https://userclickcounts.web.app/login
+
 ## Features
 
 - **User Authentication**: Email/password authentication using Firebase Auth
